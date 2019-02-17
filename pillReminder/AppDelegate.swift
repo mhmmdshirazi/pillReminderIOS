@@ -11,7 +11,7 @@ import CoreData
 import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
@@ -32,20 +32,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         content.title = "Pill Reminder"
         content.body = "Use your first and second pills"
         content.sound = UNNotificationSound.default
-        content.categoryIdentifier = "Pill Reminder"
+        content.categoryIdentifier = "PillReminder"
         
         
         let request = UNNotificationRequest(identifier: "textNotification", content: content, trigger: trigger)
-
-        UNUserNotificationCenter.current().delegate = self
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        UNUserNotificationCenter.current().add(request) {(error) in
+        let options : UNAuthorizationOptions = [.sound , .alert]
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: options) { (granted, error) in
+            if error != nil {
+                print(error)
+            }
+        }
+        center.delegate = self
+        center.removeAllPendingNotificationRequests()
+        center.add(request) {(error) in
             if let error = error {
                 print("Uh oh! We had an error: \(error)")
             }
         }
     }
-
+   
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        if response.actionIdentifier == "PillReminder" {
+            if response.actionIdentifier == "Compelete" {
+                
+                //// remove notif
+                UNUserNotificationCenter.current().delegate = self
+                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                let newDate = Date(timeInterval: 30, since: Date())
+                scheduleNotification(at: newDate)
+            }
+            
+            
+        }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert,.badge,.sound])
+        //// remove notif
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        let newDate = Date(timeInterval: 30, since: Date())
+        scheduleNotification(at: newDate)
+    }
 
     ///////////////
     
@@ -121,18 +150,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
-
-extension AppDelegate: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        
-        if response.actionIdentifier == "complete" {
-            //// remove notif
-            UNUserNotificationCenter.current().delegate = self
-            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-            let newDate = Date(timeInterval: 30, since: Date())
-            scheduleNotification(at: newDate)
-
-        }
-    }
-}
+//
+//extension AppDelegate: UNUserNotificationCenterDelegate {
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+//
+//        if response.actionIdentifier == "complete" {
+//            //// remove notif
+//            UNUserNotificationCenter.current().delegate = self
+//            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+//            let newDate = Date(timeInterval: 30, since: Date())
+//            scheduleNotification(at: newDate)
+//
+//        }
+//    }
+//}
 

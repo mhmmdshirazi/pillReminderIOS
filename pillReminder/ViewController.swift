@@ -11,7 +11,8 @@ import UIKit
 class ViewController: UIViewController {
 //////// Outlets
     @IBOutlet weak var dateOL: UITextField!
-//////// Variables
+    @IBOutlet weak var nextPill: UITextView!
+    //////// Variables
     var savedTime : Date?
     let calendar = Calendar.current
 //////// Functions
@@ -23,7 +24,9 @@ class ViewController: UIViewController {
             let hour = calendar.component(.hour, from: savedTime!)
             let minutes = calendar.component(.minute, from: savedTime!)
             dateOL.text = String(format: "%02d:%02d", hour, minutes)
+            nextPill.text = String(format: "%02d:%02d", hour + 2, minutes)
         }
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
 //////// Actions
@@ -36,7 +39,10 @@ class ViewController: UIViewController {
         coreDataHandler.setTime(dateTime: date)
         let delegate = UIApplication.shared.delegate as? AppDelegate
         let selectedDate = Date(timeInterval: 40, since: date)
+        let hourr = calendar.component(.hour, from: selectedDate)
+        let minutess = calendar.component(.minute, from: selectedDate)
         print (date,selectedDate)
+        nextPill.text = String(format: "%02d:%02d", hourr, minutess)
         delegate?.scheduleNotification(at: selectedDate)
     }
     
