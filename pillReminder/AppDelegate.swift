@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         return true
     }
+    
+    /////////// manage notifications
+    func scheduleNotification(at date: Date) {
+        let calendar = Calendar(identifier: .gregorian)
+        let components = calendar.dateComponents(in: .current, from: date)
+        let newComponents = DateComponents(calendar: calendar, timeZone: .current, month: components.month, day: components.day, hour: components.hour, minute: components.minute)
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: newComponents, repeats: false)
+        let content = UNMutableNotificationContent()
+        content.title = "Pill Reminder"
+        content.body = "Use your first and second pills"
+        content.sound = UNNotificationSound.default
+        content.categoryIdentifier = "Pill Reminder"
+        
+        
+        let request = UNNotificationRequest(identifier: "textNotification", content: content, trigger: trigger)
+
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UNUserNotificationCenter.current().add(request) {(error) in
+            if let error = error {
+                print("Uh oh! We had an error: \(error)")
+            }
+        }
+    }
+
+
+    ///////////////
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -89,5 +119,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+}
+
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        if response.actionIdentifier == "complete" {
+            //// remove notif
+            UNUserNotificationCenter.current().delegate = self
+            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+            let newDate = Date(timeInterval: 30, since: Date())
+            scheduleNotification(at: newDate)
+
+        }
+    }
 }
 

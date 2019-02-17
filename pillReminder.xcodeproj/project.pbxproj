@@ -13,6 +13,7 @@
 		6A3F1BD922194CE6009E5AE8 /* pillReminder.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F1BD722194CE6009E5AE8 /* pillReminder.xcdatamodeld */; };
 		6A3F1BDB22194CE8009E5AE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A3F1BDA22194CE8009E5AE8 /* Assets.xcassets */; };
 		6A3F1BDE22194CE8009E5AE8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A3F1BDC22194CE8009E5AE8 /* LaunchScreen.storyboard */; };
+		6A3F1BE82219538A009E5AE8 /* coreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F1BE72219538A009E5AE8 /* coreData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,8 @@
 		6A3F1BDA22194CE8009E5AE8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6A3F1BDD22194CE8009E5AE8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6A3F1BDF22194CE8009E5AE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6A3F1BE522195012009E5AE8 /* pillReminder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = pillReminder.entitlements; sourceTree = "<group>"; };
+		6A3F1BE72219538A009E5AE8 /* coreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = coreData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,8 +59,10 @@
 		6A3F1BCF22194CE6009E5AE8 /* pillReminder */ = {
 			isa = PBXGroup;
 			children = (
+				6A3F1BE522195012009E5AE8 /* pillReminder.entitlements */,
 				6A3F1BD022194CE6009E5AE8 /* AppDelegate.swift */,
 				6A3F1BD222194CE6009E5AE8 /* ViewController.swift */,
+				6A3F1BE72219538A009E5AE8 /* coreData.swift */,
 				6A3F1BD422194CE6009E5AE8 /* Main.storyboard */,
 				6A3F1BDA22194CE8009E5AE8 /* Assets.xcassets */,
 				6A3F1BDC22194CE8009E5AE8 /* LaunchScreen.storyboard */,
@@ -99,6 +104,14 @@
 				TargetAttributes = {
 					6A3F1BCC22194CE6009E5AE8 = {
 						CreatedOnToolsVersion = 10.0;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -138,6 +151,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A3F1BE82219538A009E5AE8 /* coreData.swift in Sources */,
 				6A3F1BD322194CE6009E5AE8 /* ViewController.swift in Sources */,
 				6A3F1BD122194CE6009E5AE8 /* AppDelegate.swift in Sources */,
 				6A3F1BD922194CE6009E5AE8 /* pillReminder.xcdatamodeld in Sources */,
